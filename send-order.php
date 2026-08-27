@@ -1,7 +1,7 @@
 <?php
 const RECIPIENT_EMAIL = 'cyclone44@wanadoo.fr';
 const MAX_FILE_SIZE = 15 * 1024 * 1024;
-const ALLOWED_EXTENSIONS = ['stp', 'step'];
+const ALLOWED_EXTENSIONS = ['stl', 'step'];
 
 function clean_value(string $value): string
 {
@@ -32,7 +32,7 @@ if ($nom === '' || $prenom === '' || $description === '' || $urgence === '' || $
 }
 
 if (!isset($_FILES['fichiers']) || !is_array($_FILES['fichiers']['name'])) {
-    fail_request('Merci d’ajouter au moins un fichier .stp ou .step.');
+    fail_request('Merci d’ajouter au moins un fichier .stl ou .step.');
 }
 
 $attachments = [];
@@ -51,7 +51,7 @@ for ($index = 0; $index < $fileCount; $index++) {
     $size = (int) $_FILES['fichiers']['size'][$index];
 
     if (!in_array($extension, ALLOWED_EXTENSIONS, true)) {
-        fail_request('Seuls les fichiers .stp ou .step sont acceptés.');
+        fail_request('Seuls les fichiers .stl ou .step sont acceptés.');
     }
 
     if ($size <= 0 || $size > MAX_FILE_SIZE) {

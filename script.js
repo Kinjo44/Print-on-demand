@@ -1,7 +1,7 @@
 const form = document.querySelector('#order-form');
 const fileInput = document.querySelector('#files');
 const fileError = document.querySelector('#file-error');
-const allowedExtensions = ['stp', 'step'];
+const allowedExtensions = ['stl', 'step'];
 
 function validateFiles() {
   const files = Array.from(fileInput.files);
@@ -11,7 +11,7 @@ function validateFiles() {
   });
 
   if (!files.length) {
-    fileError.textContent = 'Veuillez ajouter au moins un fichier .stp ou .step.';
+    fileError.textContent = 'Veuillez ajouter au moins un fichier .stl ou .step.';
     return false;
   }
 

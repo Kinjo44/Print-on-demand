@@ -6,20 +6,19 @@
     <title>Commande d'impression 3D</title>
     <meta
       name="description"
-      content="Déposez une demande d'impression 3D en filament ou en résine avec vos fichiers STEP/STP."
+      content="Déposez une demande d'impression 3D en filament ou en résine avec vos fichiers STL/STEP."
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="page-shell">
-      <section class="hero" aria-labelledby="hero-title">
-        <p class="eyebrow">Impression 3D sur demande</p>
-        <h1 id="hero-title">Transformez vos fichiers STEP en pièces imprimées.</h1>
-        <p class="hero-text">
-          Décrivez votre besoin, ajoutez un ou plusieurs fichiers .stp ou .step, puis recevez un retour personnalisé pour votre réalisation.
-        </p>
-      </section>
+    <header class="site-header" aria-label="Kinjo3DX">
+      <a class="brand" href="index.html" aria-label="Accueil Kinjo3DX">
+        <span class="brand-logo" aria-hidden="true">K3D</span>
+        <span class="brand-name">Kinjo3DX</span>
+      </a>
+    </header>
 
+    <main class="page-shell">
       <section class="form-card" aria-labelledby="form-title">
         <div class="form-heading">
           <p class="eyebrow">Demande de devis</p>
@@ -46,8 +45,8 @@
           </label>
 
           <label class="file-drop">
-            <span>Fichier(s) à imprimer * (.stp ou .step)</span>
-            <input id="files" type="file" name="fichiers[]" accept=".stp,.step" multiple required />
+            <span>Fichier(s) à imprimer * (.stl ou .step)</span>
+            <input id="files" type="file" name="fichiers[]" accept=".stl,.step" multiple required />
             <small>Vous pouvez sélectionner plusieurs fichiers depuis votre ordinateur.</small>
           </label>
           <p id="file-error" class="error-message" role="alert" aria-live="polite"></p>
@@ -79,7 +78,7 @@
           </label>
 
           <button type="submit">Envoyer la demande</button>
-          <p class="form-note">* Champs obligatoires. Les fichiers non STEP/STP sont refusés.</p>
+          <p class="form-note">* Champs obligatoires. Les fichiers non STL/STEP sont refusés.</p>
         </form>
       </section>
     </main>
