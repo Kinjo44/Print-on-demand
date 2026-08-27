@@ -6,7 +6,7 @@
     <title>Commande d'impression 3D</title>
     <meta
       name="description"
-      content="Déposez une demande d'impression 3D en filament ou en résine avec vos fichiers STL/STEP."
+      content="Déposez une demande d'impression 3D en filament ou en résine avec vos fichiers STL/STP/STEP."
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -45,8 +45,8 @@
           </label>
 
           <label class="file-drop">
-            <span>Fichier(s) à imprimer * (.stl ou .step)</span>
-            <input id="files" type="file" name="fichiers[]" accept=".stl,.step" multiple required />
+            <span>Fichier(s) à imprimer * (.stl, .stp ou .step)</span>
+            <input id="files" type="file" name="fichiers[]" accept=".stl,.stp,.step" multiple required />
             <small>Vous pouvez sélectionner plusieurs fichiers depuis votre ordinateur.</small>
           </label>
           <p id="file-error" class="error-message" role="alert" aria-live="polite"></p>
@@ -78,7 +78,7 @@
           </label>
 
           <button type="submit">Envoyer la demande</button>
-          <p class="form-note">* Champs obligatoires. Les fichiers non STL/STEP sont refusés.</p>
+          <p class="form-note">* Champs obligatoires. Les fichiers non STL/STP/STEP sont refusés.</p>
         </form>
       </section>
     </main>
