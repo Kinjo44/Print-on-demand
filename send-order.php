@@ -1,16 +1,16 @@
 <?php
 const RECIPIENT_EMAIL = 'cyclone44@wanadoo.fr';
 const MAX_FILE_SIZE = 15 * 1024 * 1024;
-const ALLOWED_EXTENSIONS = ['stl', 'step'];
+const ALLOWED_EXTENSIONS = ['stl', 'stp', 'step'];
 
 function clean_value(string $value): string
 {
     return trim(str_replace(["\r", "\n"], ' ', $value));
 }
 
-function fail_request(string $message): void
+function fail_request(string $message, int $statusCode = 400): void
 {
-    http_response_code(400);
+    http_response_code($statusCode);
     echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
     exit;
 }
@@ -31,8 +31,12 @@ if ($nom === '' || $prenom === '' || $description === '' || $urgence === '' || $
     fail_request('Merci de remplir tous les champs obligatoires.');
 }
 
+if (empty($_POST) && empty($_FILES) && (int) ($_SERVER['CONTENT_LENGTH'] ?? 0) > 0) {
+    fail_request('Le téléversement dépasse la limite autorisée par le serveur. Merci de réduire la taille des fichiers ou d’augmenter post_max_size/upload_max_filesize.', 413);
+}
+
 if (!isset($_FILES['fichiers']) || !is_array($_FILES['fichiers']['name'])) {
-    fail_request('Merci d’ajouter au moins un fichier .stl ou .step.');
+    fail_request('Merci d’ajouter au moins un fichier .stl, .stp ou .step.');
 }
 
 $attachments = [];
@@ -41,8 +45,20 @@ $fileCount = count($_FILES['fichiers']['name']);
 for ($index = 0; $index < $fileCount; $index++) {
     $error = $_FILES['fichiers']['error'][$index];
 
+    $originalName = basename($_FILES['fichiers']['name'][$index] ?? 'fichier');
+
     if ($error !== UPLOAD_ERR_OK) {
-        fail_request('Un fichier n’a pas pu être téléversé correctement.');
+        $uploadMessages = [
+            UPLOAD_ERR_INI_SIZE => "Le fichier {$originalName} dépasse la limite configurée sur le serveur.",
+            UPLOAD_ERR_FORM_SIZE => "Le fichier {$originalName} dépasse la limite autorisée par le formulaire.",
+            UPLOAD_ERR_PARTIAL => "Le fichier {$originalName} n’a été téléversé que partiellement.",
+            UPLOAD_ERR_NO_FILE => "Aucun fichier n’a été reçu pour {$originalName}.",
+            UPLOAD_ERR_NO_TMP_DIR => 'Le dossier temporaire de téléversement est manquant sur le serveur.',
+            UPLOAD_ERR_CANT_WRITE => 'Le serveur n’a pas pu écrire le fichier téléversé.',
+            UPLOAD_ERR_EXTENSION => 'Une extension PHP a interrompu le téléversement.',
+        ];
+
+        fail_request($uploadMessages[$error] ?? 'Un fichier n’a pas pu être téléversé correctement.');
     }
 
     $originalName = basename($_FILES['fichiers']['name'][$index]);
@@ -51,7 +67,7 @@ for ($index = 0; $index < $fileCount; $index++) {
     $size = (int) $_FILES['fichiers']['size'][$index];
 
     if (!in_array($extension, ALLOWED_EXTENSIONS, true)) {
-        fail_request('Seuls les fichiers .stl ou .step sont acceptés.');
+        fail_request('Seuls les fichiers .stl, .stp ou .step sont acceptés.');
     }
 
     if ($size <= 0 || $size > MAX_FILE_SIZE) {
@@ -60,7 +76,7 @@ for ($index = 0; $index < $fileCount; $index++) {
 
     $attachments[] = [
         'name' => $originalName,
-        'content' => chunk_split(base64_encode(file_get_contents($tmpName))),
+        'content' => chunk_split(base64_encode(file_get_contents($tmpName) ?: '')),
         'type' => mime_content_type($tmpName) ?: 'application/octet-stream',
     ];
 }
