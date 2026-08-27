@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Commande d'impression 3D</title>
+    <meta
+      name="description"
+      content="Déposez une demande d'impression 3D en filament ou en résine avec vos fichiers STEP/STP."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="hero" aria-labelledby="hero-title">
+        <p class="eyebrow">Impression 3D sur demande</p>
+        <h1 id="hero-title">Transformez vos fichiers STEP en pièces imprimées.</h1>
+        <p class="hero-text">
+          Décrivez votre besoin, ajoutez un ou plusieurs fichiers .stp ou .step, puis recevez un retour personnalisé pour votre réalisation.
+        </p>
+      </section>
+
+      <section class="form-card" aria-labelledby="form-title">
+        <div class="form-heading">
+          <p class="eyebrow">Demande de devis</p>
+          <h2 id="form-title">Votre commande</h2>
+          <p>Les informations seront envoyées automatiquement à cyclone44@wanadoo.fr.</p>
+        </div>
+
+        <form id="order-form" action="send-order.php" method="post" enctype="multipart/form-data" novalidate>
+          <div class="grid two-columns">
+            <label>
+              <span>Nom *</span>
+              <input type="text" name="nom" autocomplete="family-name" required />
+            </label>
+
+            <label>
+              <span>Prénom *</span>
+              <input type="text" name="prenom" autocomplete="given-name" required />
+            </label>
+          </div>
+
+          <label>
+            <span>Description du besoin *</span>
+            <textarea name="description" rows="5" placeholder="Dimensions, usage de la pièce, contraintes mécaniques, quantité souhaitée..." required></textarea>
+          </label>
+
+          <label class="file-drop">
+            <span>Fichier(s) à imprimer * (.stp ou .step)</span>
+            <input id="files" type="file" name="fichiers[]" accept=".stp,.step" multiple required />
+            <small>Vous pouvez sélectionner plusieurs fichiers depuis votre ordinateur.</small>
+          </label>
+          <p id="file-error" class="error-message" role="alert" aria-live="polite"></p>
+
+          <div class="grid two-columns">
+            <fieldset>
+              <legend>Niveau d'urgence *</legend>
+              <label class="choice"><input type="radio" name="urgence" value="Standard" required /> Standard</label>
+              <label class="choice"><input type="radio" name="urgence" value="Rapide" /> Rapide</label>
+              <label class="choice"><input type="radio" name="urgence" value="Très urgent" /> Très urgent</label>
+              <label class="choice"><input type="radio" name="urgence" value="Critique" /> Critique</label>
+            </fieldset>
+
+            <fieldset>
+              <legend>Technologie souhaitée *</legend>
+              <label class="choice"><input type="radio" name="technologie" value="Filament" required /> Filament</label>
+              <label class="choice"><input type="radio" name="technologie" value="Résine" /> Résine</label>
+            </fieldset>
+          </div>
+
+          <label>
+            <span>Couleur de préférence</span>
+            <input type="text" name="couleur" placeholder="Ex. noir mat, blanc, transparent..." />
+          </label>
+
+          <label>
+            <span>Commentaire</span>
+            <textarea name="commentaire" rows="4" placeholder="Informations complémentaires, adresse de livraison, disponibilité..."></textarea>
+          </label>
+
+          <button type="submit">Envoyer la demande</button>
+          <p class="form-note">* Champs obligatoires. Les fichiers non STEP/STP sont refusés.</p>
+        </form>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
